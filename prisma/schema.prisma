@@ -9,6 +9,7 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
 model User {
   id        String   @id @default(uuid())
   email     String   @unique
@@ -21,33 +22,35 @@ model User {
 
   memberships OrganizationMember[]
 }
+
 model Organization {
-  id        String   @id @default(uuid())
-  name      String
-  address   String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  memberships   OrganizationMember[]
+  id          String               @id @default(uuid())
+  name        String
+  address     String?
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+  memberships OrganizationMember[]
 }
+
 enum OrganizationRole {
   OWNER
   ADMIN
   MEMBER
 }
-model OrganizationMember {
-  id              String   @id @default(uuid())
-  userId          String
-  organizationId  String
-  role            OrganizationRole
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  
 
-  user User @relation(fields: [userId], references: [id],onDelete: Cascade)
-  organization Organization @relation(fields: [organizationId], references: [id],onDelete: Cascade)
+model OrganizationMember {
+  id             String           @id @default(uuid())
+  userId         String
+  organizationId String
+  role           OrganizationRole
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organization   Organization     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
   @@unique([userId, organizationId])
 }
+
 enum Role {
   ADMIN
   USER
