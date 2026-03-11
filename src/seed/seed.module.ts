@@ -8,4 +8,4 @@ import { PrismaModule } from '../prisma/prisma.module'
   providers: [SeedService],
   controllers: [SeedController]
 })
-export class SeedModule {}
+export class SeedModule { }
